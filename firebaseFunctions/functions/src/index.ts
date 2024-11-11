@@ -14,7 +14,7 @@ import axios from "axios";
 const flightDetails="https://data-live.flightradar24.com/clickhandler/?flight=";
 
 // Replace with your actual flight search URL
-const bounds = "47.523585,-122.409668,47.646340,-122.307701";
+const bounds = "47.646340,47.523585,-122.409668,-122.307701";
 const flightSearchBase="https://data-cloud.flightradar24.com/zones/fcgi/feed.js?bounds=";
 
 const flightSearchTail="&faa=1&satellite=1&mlat=1&flarm=1&adsb=1&gnd=0&air=1&vehicles=0&estimated=0&maxage=14400&gliders=0&stats=0&ems=1&limit=1";
@@ -35,9 +35,9 @@ export const getFlightData = onRequest({cors: true}, async (req, res) => {
       for (const flightId in data) {
         if (flightId !== "version" && flightId !== "full_count" && data[flightId].length > 13) {
           // Return the flight ID if it meets the criteria
-
+          console.log(`Get flight details for id: ${flightId}`);
           const flightDetailsResponse = await axios.get(flightDetails + flightId, {headers: headers});
-          console.log(`flightDetailsResponse ${flightDetailsResponse}`);
+          console.log(`flightDetailsResponse ${flightDetailsResponse.data}`);
           const jsonData = flightDetailsResponse.data; // Access the JSON data here
           const getFlightDataResponse = {
             flight: {
