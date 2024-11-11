@@ -25,6 +25,11 @@ const headers = {
 };
 
 export const getFlightData = onRequest({cors: true}, async (req, res) => {
+  if (req.headers.authorization != "password") {
+    res.status(403).json({error: "Not authroized", details: null});
+    return;
+  }
+
   try {
     // Perform the HTTP GET request to the flight search API
     const response = await axios.get(flightSearchBase + bounds + flightSearchTail, {headers: headers});
